@@ -8,8 +8,6 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
-# https://github.com/GuillaumeFalourd/setup-windows10-sdk-action/issues/3
-
 jobs:
   build-windows-x86:
     runs-on: windows-latest
