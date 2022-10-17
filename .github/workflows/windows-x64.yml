@@ -8,8 +8,6 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
-# https://github.com/GuillaumeFalourd/setup-windows10-sdk-action/issues/3
-
 jobs:
   build-windows-x64:
     runs-on: windows-latest
@@ -20,7 +18,7 @@ jobs:
           sdk-version: 20348
       - name: Checkout sources
         run: |
-          git clone https://github.com/google/angle .
+          git clone --single-branch -b chromium/5249 https://github.com/google/angle.git .
       - name: Fetch depot_tools
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -59,3 +57,9 @@ jobs:
         with:
           name: angle-windows-x64
           path: angle-windows-x64
+      - name: Git Push
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Submit artifact'
+          add: '* --force'
+          cwd: './angle-windows-x64/'

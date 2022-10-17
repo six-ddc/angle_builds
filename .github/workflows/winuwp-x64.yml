@@ -20,7 +20,7 @@ jobs:
           sdk-version: 20348
       - name: Checkout sources
         run: |
-          git clone https://github.com/google/angle .
+          git clone --single-branch -b chromium/5249 https://github.com/google/angle.git .
       - name: Fetch depot_tools
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -59,3 +59,9 @@ jobs:
         with:
           name: angle-winuwp-x64
           path: angle-winuwp-x64
+      - name: Git Push
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Submit artifact'
+          add: '* --force'
+          cwd: './angle-winuwp-x64/'
