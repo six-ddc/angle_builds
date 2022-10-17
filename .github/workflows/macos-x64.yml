@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Checkout sources
         run: |
-          git clone https://github.com/google/angle .
+          git clone --single-branch -b chromium/5249 https://github.com/google/angle.git .
       - name: Fetch depot_tools
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -23,7 +23,7 @@ jobs:
           export PATH="$(pwd)/depot_tools:$PATH"
           python scripts/bootstrap.py
           gclient sync
-          gn gen out/Release --args="is_debug=false target_cpu=\"x64\" angle_build_all=false"
+          gn gen out/Release --args="is_debug=false target_cpu=\"x64\" angle_build_all=true"
           autoninja -C out/Release
       - name: Pack
         run: |
