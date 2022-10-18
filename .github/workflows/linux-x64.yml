@@ -1,12 +1,7 @@
 name: linux-x64
 
-on: 
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    - cron: '0 0 * * 0'
+on:
+  workflow_dispatch:
 
 jobs:
   build-linux-x64:
@@ -21,6 +16,7 @@ jobs:
       - name: Build
         run: |
           export PATH="$(pwd)/depot_tools:$PATH"
+          export DEPOT_TOOLS_UPDATE=0
           python scripts/bootstrap.py
           gclient sync
           gn gen out/Release --args="is_debug=false target_cpu=\"x64\" angle_build_all=false"

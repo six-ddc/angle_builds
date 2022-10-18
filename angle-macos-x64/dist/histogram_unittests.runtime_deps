@@ -1,9 +1,0 @@
-./histogram_unittests
-../../testing/test_env.py
-../../testing/xvfb.py
-../../testing/scripts/common.py
-../../.vpython3
-../../build/util/lib/__init__.py
-../../build/util/lib/results/
-bin/run_histogram_unittests
-../../.vpython3
