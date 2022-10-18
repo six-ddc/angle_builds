@@ -24,7 +24,7 @@ jobs:
           cp main/angle_patchs/.gclient .
           cp main/angle_patchs/DEPS .
           gclient sync
-          gn gen out/Release --args="is_debug=false target_cpu=\"x64\" is_component_build=false" angle angle_shader_translator
+          gn gen out/Release --args="is_debug=false target_cpu=\"x64\" is_component_build=false"
           autoninja -C out/Release
       - name: Pack
         run: |
