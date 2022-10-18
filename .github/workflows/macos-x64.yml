@@ -19,7 +19,7 @@ jobs:
           export DEPOT_TOOLS_UPDATE=0
           python scripts/bootstrap.py
           gclient sync
-          gn gen out/Release --args="is_debug=false target_cpu=\"x64\" angle_build_all=false"
+          gn gen out/Release angle angle_shader_translator --args="is_debug=false target_cpu=\"x64\" is_component_build=false"
           autoninja -C out/Release
       - name: Pack
         run: |
@@ -49,4 +49,5 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Submit artifact'
+          pull: '--rebase'
           cwd: './main/angle-macos-x64/'
