@@ -52,14 +52,17 @@ jobs:
           cp -rf include angle-windows-x86/
           find angle-windows-x86 -name ".clang-format" -delete
           find angle-windows-x86 -name "*.md" -delete
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          name: angle-windows-x86
-          path: angle-windows-x86
-      - name: Git Push
+          path: main
+      - name: Move
+        working-directory: main
+        run: |
+          git rm -rf angle-windows-x86 || true
+          mv ../angle-windows-x86 .
+      - name: Push
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Submit artifact'
-          add: '* --force'
-          cwd: './angle-windows-x86/'
+          cwd: './main/angle-windows-x86/'

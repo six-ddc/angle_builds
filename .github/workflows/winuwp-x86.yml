@@ -52,16 +52,19 @@ jobs:
           cp -rf include angle-winuwp-x86/
           find angle-winuwp-x86 -name ".clang-format" -delete
           find angle-winuwp-x86 -name "*.md" -delete
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          name: angle-winuwp-x86
-          path: angle-winuwp-x86
-      - name: Git Push
+          path: main
+      - name: Move
+        working-directory: main
+        run: |
+          git rm -rf angle-winuwp-x86 || true
+          mv ../angle-winuwp-x86 .
+      - name: Push
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Submit artifact'
-          add: '* --force'
-          cwd: './angle-winuwp-x86/'
+          cwd: './main/angle-winuwp-x86/'
 
 
