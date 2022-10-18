@@ -25,14 +25,13 @@ jobs:
           cp main/angle_patchs/DEPS .
           gclient sync
           gn gen out/Release --args="is_debug=false target_cpu=\"x64\" is_component_build=false"
-          autoninja -C out/Release
+          autoninja -C out/Release angle angle_shader_translator
       - name: Pack
         run: |
           mkdir angle-macos-x64
           mkdir angle-macos-x64/dist
           rm -rf out/Release/gen
           rm -rf out/Release/obj
-          rm -rf out/Release/args.gn
           rm -rf out/Release/build.ninja
           rm -rf out/Release/build.ninja.d
           rm -rf out/Release/toolchain.ninja
