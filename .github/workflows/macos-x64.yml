@@ -18,18 +18,20 @@ jobs:
           export PATH="$(pwd)/depot_tools:$PATH"
           export DEPOT_TOOLS_UPDATE=0
           #python scripts/bootstrap.py
-          cat << END >.gclient
-              solutions = [
-              { "name"        : '.',
-                "url"         : 'https://chromium.googlesource.com/angle/angle.git',
-                "deps_file"   : 'DEPS',
-                "managed"     : False,
-                "custom_deps" : {
-                },
-                "custom_vars": {},
+          $GCLIENT_STRING=$(cat << EOF
+          solutions = [
+            { "name"        : '.',
+              "url"         : 'https://chromium.googlesource.com/angle/angle.git',
+              "deps_file"   : 'DEPS',
+              "managed"     : False,
+              "custom_deps" : {
               },
-            ]
-          END
+              "custom_vars": {},
+            },
+          ]
+          EOF
+          )
+          echo "$GCLIENT_STRING" > .gclient
           gclient sync
           gn gen out/Release angle angle_shader_translator --args="is_debug=false target_cpu=\"x64\" is_component_build=false"
           autoninja -C out/Release
