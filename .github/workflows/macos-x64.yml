@@ -10,6 +10,10 @@ jobs:
       - name: Checkout sources
         run: |
           git clone --single-branch -b chromium/5249 https://github.com/google/angle.git .
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: main
       - name: Fetch depot_tools
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -17,21 +21,8 @@ jobs:
         run: |
           export PATH="$(pwd)/depot_tools:$PATH"
           export DEPOT_TOOLS_UPDATE=0
-          #python scripts/bootstrap.py
-          $GCLIENT_STRING=$(cat << EOF
-          solutions = [
-            { "name"        : '.',
-              "url"         : 'https://chromium.googlesource.com/angle/angle.git',
-              "deps_file"   : 'DEPS',
-              "managed"     : False,
-              "custom_deps" : {
-              },
-              "custom_vars": {},
-            },
-          ]
-          EOF
-          )
-          echo "$GCLIENT_STRING" > .gclient
+          cp main/angle_patchs/.gclient .
+          cp main/angle_patchs/DEPS .
           gclient sync
           gn gen out/Release angle angle_shader_translator --args="is_debug=false target_cpu=\"x64\" is_component_build=false"
           autoninja -C out/Release
@@ -50,10 +41,6 @@ jobs:
           cp -rf include angle-macos-x64/
           find angle-macos-x64 -name ".clang-format" -delete
           find angle-macos-x64 -name "*.md" -delete
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          path: main
       - name: Move
         working-directory: main
         run: |
